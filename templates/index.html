@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity = "sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin = "anonymous" ></script>
+
+    <title>Beritod Ngws</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .mypic {
+            width: 100%;
+            height: 300px;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/youtube-thumbnail-design-template-bd73c9b9180d60c8d677aae7e7495d7f_screen.jpg?ts=1593284625");
+            background-position: center 30%;
+            background-size: cover;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mypost {
+            width: 95%;
+            max-width: 500px;
+            margin: 20px auto 20px auto;
+
+            box-shadow: 0px 0px 3px 0px black;
+            padding: 20px;
+        }
+
+        .mypost>button {
+            margin-top: 15px;
+        }
+
+        .mycards {
+            width: 95%;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .mycards>.card {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .text-news{
+            padding: 20px 50px;
+        }
+        .image-1{
+            background-image: url("{{ url_for('static', filename='bundir.png') }}");
+            max-width: 200px;
+            height: 300px;
+            background-size: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto 20px auto;
+        }
+        .image-2{
+            background-image: url("https://cloud.jpnn.com/photo/arsip/normal/2022/03/10/pesan-wasiat-berbahasa-inggris-milik-rustandi-seorang-kuli-qjnv.jpg");
+            background-repeat: no-repeat;
+            max-width: 200px;
+            height: 150px;
+            background-size: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto 20px auto;
+        }
+        .iklan-news{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto 50px auto;
+            margin-top: 15%;
+            padding: 50px;
+            text-align: center;
+        }
+        .mypic>p{
+            padding: 20px 50px;
+            text-align: center;
+        }
+        
+    </style>
+    <script>
+            $(document).ready(function () {
+                // set_temp();
+                show_comment();
+            });
+        function set_temp() {
+            $.ajax({
+                type: "GET",
+                url: "http://spartacodingclub.shop/sparta_api/weather/jakarta",
+                data: {},
+                success: function (response) {
+                    $('#temp').text(response['temp'])
+                }
+            })
+        }
+        function save_comment() {
+            let name = $('#name').val();
+            let comment = $('#comment').val();
+            $.ajax({
+                type: 'POST',
+                url: '/homework',
+                data: {
+                    name_give: name,
+                    comment_give: comment,
+                },
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+        function show_comment() {
+            $('#comment-list').empty();
+            $.ajax({
+                type: "GET",
+                url: "/homework",
+                data: {},
+                success: function (response) {
+                    let messages = response['messages'];
+                    for (let i = 0; i < messages.length; i++) {
+                        let name = messages[i]['name'];
+                        let comment = messages[i]['comment'];
+                        let temp_html = `
+                                <div class="card">
+                                    <div class="card-body">
+                                        <blockquote class="blockquote mb-0">
+                                            <p>${comment}</p>
+                                            <footer class="blockquote-footer">${name}</footer>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                        `;
+
+                        $('#comment-list').append(temp_html);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="mypic">
+        <h1>Berita Panas</h1>
+        <p>Berita Paling Update Tentang Bercocok Tanam Di Sawah</p>
+    </div>
+    <div class="text-news">
+        <h2>DIDUGA SELINGKUHANNYA BERSAMA ORANG LAIN, PRIA ASAL BATAM INI MEMILIH AKHIRI HIDUP, DITEMUKAN TEWAS GANTUNG DIRI DEKAT TRIBUN STM</h5>
+        <hr>
+        <div class="image-1"></div>
+        <!-- <hr> -->
+        <h5>Warganet digegerkan dengan video Yandex viral, kasus penemuan mayat di salah satu sekolah famous di Batam.</h5>
+        <h5>Hal ini terjadi pada tanggal 15-11-2023 pada pukul 16:45 sore hari. Korban yang meninggal tersebut bernama Keisa Habibi. Mayatnya sudah dikuburkan di temiang sana. Dia melakukan percobaan bunuh diri dengan menggantungkan diri di dekat tribun stm dikarenakan pasangannya yang bernama Alif telah menyelingkuhinya. Menurutnya, ia lebih menginginkan cowok ganteng yang bernama Adit daripada cowok tulus seperti Habibi</h5>
+        <div class="image-2"></div>
+        <h5>Adapun isi surat yang ditinggalkannya:</h5>
+        <h5>"Aku dibutakan dan diberika harapan palsu. Dunia ini kejam. Ingat bahwa aku mencintai Alif. Tapi aku nggak bisa melakukannya lagi sejak aku berhenti tumbuh. Sekarang sudah terlambat. Terimakasih Alif sudah menemaniku sampai detik ini. Aku pergi luann yaa, ntarr kalo kangen nyusul aja. Bye byee"</h5>
+        <h5>Alif, pelaku perselingkuhan, meminta maaf sebesar besarnya kepada keluarga korban</h5>
+        <h5>"Kerja Bagus!!", ujar Sofwan sebagai bapak korban</h5>
+        <h5>Sekian Berita hari ini. Kerja Bagus!!</h5>
+        
+
+    </div>
+    <a href="/iklan">
+        <h5 class="iklan-news">IKLAN PRDOUK PEMBESAR PISANG TERBARU</h5>
+    </a>
+    <hr>
+    <div class="mypost">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="name" placeholder="url">
+            <label for="floatingInput">Nickname</label>
+        </div>
+        <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="comment"
+                style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Comment</label>
+        </div>
+        <button onclick="save_comment()" type="button" class="btn btn-dark">Save</button>
+    </div>
+    <div class="mycards" id="comment-list">
+        <div class="card">
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>I love your new album!</p>
+                    <footer class="blockquote-footer">BubbleBranch199</footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <a href="/iklanj">
+        <h5 class="iklan-news">INGIN SITUS JUDI YG MENJANJIKAN?? ISMA88 SOLUSINYA</h5>
+    </a>
+</body>
+
+</html>
